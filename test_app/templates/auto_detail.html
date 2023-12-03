@@ -1,0 +1,24 @@
+<!-- В файле templates/test_app/auto_detail.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ auto.brand_auto }} {{ auto.model_auto }}</title>
+</head>
+<body>
+        <h1>{{ auto.brand_auto }} {{ auto.model_auto }}</h1>
+        <p>Топливо: {{ auto.engine_fuel }}</p>
+        <p>Объем: {{ auto.engine_volume }}</p>
+        <p>Описание: {{ auto.description }}</p>
+        <p>Цена: {{ auto.price }}$</p>
+        {% if auto.link %}
+            <p><a href="{{ auto.link }}">Ссылка на подробную информацию с википедии</a></p>
+        {% endif %}
+        <img src="{{ auto.auto_img.url }}" alt="{{ auto.brand_auto }} {{ auto.model_auto }}"></a>
+        <form action="{% url 'order_options' auto.id %}" method="post">
+            {% csrf_token %}
+             <button type="submit">Оформить заказ</button>
+         </form>
+</body>
+</html>

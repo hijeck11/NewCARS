@@ -10,7 +10,6 @@ class Autohaus(models.Model):
     link = models.URLField(blank=True, null=True)
     auto_img = models.ImageField(upload_to='img/')
     price = models.PositiveIntegerField(default=0)
-
     options = models.ForeignKey('AutoOptions', on_delete=models.SET_NULL, blank=True, null=True)
 
 class AutoOptions(models.Model):

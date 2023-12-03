@@ -1,0 +1,22 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Автохакс</title>
+</head>
+<body>
+    <h1>Список машин</h1>
+    <ul>
+        {% for auto in autos %}
+            <li>
+                <h2><a href="{% url 'auto_detail' auto.id %}">{{ auto.brand_auto }} {{ auto.model_auto }}</a></h2>
+                <p>Объем: {{ auto.engine_volume }}</p>
+                <p>Цена: {{ auto.price }}$</p>
+                <img src="{{ auto.auto_img.url }}" alt="{{ auto.brand_auto }} {{ auto.model_auto }}">
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

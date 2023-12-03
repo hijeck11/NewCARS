@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оформление заказа</title>
+</head>
+<body>
+    <h1>Выберите опции для заказа {{ auto.brand_auto }} {{ auto.model_auto }}</h1>
+    <img src="{{ auto.auto_img.url }}" alt="{{ auto.brand_auto }} {{ auto.model_auto }}"></a>
+    <p>Топливо: {{ auto.engine_fuel }}</p>
+    <p>Объем: {{ auto.engine_volume }}</p>
+    <p>Описание: {{ auto.description }}</p>
+    <p>Цена: {{ auto.price }}$</p>
+    <form method="post" action="{% url 'submit_order' auto.id %}">
+        {% csrf_token %}
+        {% for option in options %}
+            <label>
+                <input type="checkbox" name="options" value="{{ option.id }}">
+                {{ option.option_name }}
+                <p>{{ option.option_description }}</p>
+                <p>Стоимость: {{ option.option_price }}$</p>
+            </label><br>
+        {% endfor %}
+        <button type="submit">Купить!</button>
+    </form>
+</body>
+</html>

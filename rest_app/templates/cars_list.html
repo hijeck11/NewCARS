@@ -1,0 +1,26 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Автохаус</title>
+</head>
+<body>
+    <h1>На продаже:</h1>
+    <ul>
+        {% for autohaus in cars_list %}
+            <li>
+                <strong>{{ autohaus.brand_auto }} - {{ autohaus.model_auto }}</strong><br>
+                Топливо: {{ autohaus.engine_fuel }}<br>
+                Объем: {{ autohaus.engine_volume }}<br>
+                Описание: {{ autohaus.description }}<br>
+                {% if autohaus.link %}
+                    Подробное описание: <a href="{{ autohaus.link }}" target="_blank">{{ autohaus.link }}</a><br>
+                {% endif %}
+                <img src="{{ autohaus.auto_img.url }}" alt="{{ autohaus.brand_auto }} - {{ autohaus.model_auto }}" width="200"><br>
+                Цена: ${{ autohaus.price }}
+            </li>
+            <hr>
+        {% endfor %}
+    </ul>
+</body>
+</html>

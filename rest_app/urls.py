@@ -6,5 +6,5 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('api/', MyModelListCreateView.as_view(), name='mymodel-list-create'),
+    path('cars/', MyModelListCreateView.as_view(), name='mymodel-list-create'),
 ]

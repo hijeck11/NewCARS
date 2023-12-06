@@ -7,6 +7,8 @@ from django.urls import path
 
 urlpatterns = [
     path('cars/', MyModelListCreateView.as_view(), name='mymodel-list-create'),
-    path('cars/<int:pk>/', MyModelListCreateView.as_view(), name='mymodel-list-delete'),
+    path('cars/<int:pk>/', AutohausRESTDestroyView.as_view(), name='autohaus-destroy'),
     path('cars/create/', AutohausCreateView.as_view(), name='autohaus-create'),
 ]
+
+# path('cars/<int:pk>/', AutohausRESTDestroyView.as_view(), name='autohaus-destroy'),

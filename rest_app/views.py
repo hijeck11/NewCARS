@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django import forms
@@ -30,6 +30,11 @@ class AutohausCreateView(generics.CreateAPIView):
         return render(request, 'autohaus_create.html', {'form': form})
 
 
+class AutohausRESTDestroyView(generics.DestroyAPIView):
+    queryset = AutohausREST.objects.all()
+    serializer_class = MyModelSerializer
+
+
 class MyModelListCreateView(APIView):
 
     def get(self, request, *args, **kwargs):
@@ -48,6 +53,5 @@ class MyModelListCreateView(APIView):
         if not pk:
             return Response({'Ошибка':'Не указан id объекта'})
         instance = AutohausREST.objects.get(pk=pk)
-
         instance.delete()
         return Response({'Deleted AutohausREST': 'deliting_AutohausREST'})

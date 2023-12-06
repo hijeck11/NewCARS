@@ -1,14 +1,38 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from rest_framework import generics
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from django import forms
+from .models import AutohausREST
+from .forms import AutohausRESTForm
 from .models import AutohausREST
 from .serializers import MyModelSerializer
 
+class AutohausRESTForm(forms.ModelForm):
+    class Meta:
+        model = AutohausREST
+        fields = '__all__'
 
-class MyModelListCreateView(generics.ListCreateAPIView):
+
+class AutohausCreateView(generics.CreateAPIView):
     queryset = AutohausREST.objects.all()
     serializer_class = MyModelSerializer
 
-    def list(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
+        form = AutohausRESTForm()
+        return render(request, 'autohaus_create.html', {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = AutohausRESTForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('mymodel-list-create')
+        return render(request, 'autohaus_create.html', {'form': form})
+
+
+class MyModelListCreateView(APIView):
+
+    def get(self, request, *args, **kwargs):
         cars_list = self.get_queryset()
         return render(request, 'cars_list.html', {'cars_list': cars_list})
 
@@ -18,3 +42,12 @@ class MyModelListCreateView(generics.ListCreateAPIView):
         if q:
             queryset = queryset.filter(brand_auto__icontains=q)
         return queryset
+
+    def delete(self, request, *args, **kwargs):
+        pk = kwargs.get('pk', None)
+        if not pk:
+            return Response({'Ошибка':'Не указан id объекта'})
+        instance = AutohausREST.objects.get(pk=pk)
+
+        instance.delete()
+        return Response({'Deleted AutohausREST': 'deliting_AutohausREST'})

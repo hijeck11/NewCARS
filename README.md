@@ -1,4 +1,14 @@
 # NewCARS
+ДЗ на 06.12.23
+1. Создал forms.py
+2. Добавил во вьюхи новый класс для добавления новых записей
+class AutohausCreateView(generics.CreateAPIView):
+3. Добавил urls:
+path('cars/create/', AutohausCreateView.as_view(), name='autohaus-create'),
+4. Созда: 
+autohaus_create.html
+
+ДЗ НА 04.12.23
 1. Создал новое приложение rest_app;
 2. В настройках добавил новое приложение в "INSTALLED_APPS";
 3. В urls проекта добавил urls нового приложения "rest_app";

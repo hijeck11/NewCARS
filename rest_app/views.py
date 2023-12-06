@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from rest_framework import generics, status
+from rest_framework import generics, status, filters
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django import forms
@@ -7,6 +8,9 @@ from .models import AutohausREST
 from .forms import AutohausRESTForm
 from .models import AutohausREST
 from .serializers import MyModelSerializer
+
+from rest_framework.generics import ListAPIView
+
 
 class AutohausRESTForm(forms.ModelForm):
     class Meta:
@@ -35,6 +39,7 @@ class AutohausRESTDestroyView(generics.DestroyAPIView):
     serializer_class = MyModelSerializer
 
 
+
 class MyModelListCreateView(APIView):
 
     def get(self, request, *args, **kwargs):
@@ -55,3 +60,21 @@ class MyModelListCreateView(APIView):
         instance = AutohausREST.objects.get(pk=pk)
         instance.delete()
         return Response({'Deleted AutohausREST': 'deliting_AutohausREST'})
+
+class AutohausListViews(generics.ListAPIView):
+    queryset = AutohausREST.objects.all()
+    serializer_class = MyModelSerializer
+    # filter_backends = [filters.SearchFilter]
+    # filter_backends = [filters.SearchFilter]
+    filter_backends = [filters.OrderingFilter]
+    # filterset_fields = ['price']
+    # search_fields = ['brand_auto', 'model_auto', 'engine_fuel']
+    ordering_fields = ['price']
+
+
+class PurchaseList(generics.ListAPIView):
+    serializer_class = MyModelSerializer
+
+    def get_queryset(self):
+        name_1 = self.kwargs['price']
+        return AutohausREST.objects.filter(price=name_1)

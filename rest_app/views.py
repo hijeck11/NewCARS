@@ -86,7 +86,7 @@ class ExportAPIViews(APIView):
         try:
             queryset = AutohausREST.objects.all()
             df = pd.DataFrame.from_records(queryset.values(), exclude=['brand_auto'])
-            df.to_excel('AutoHaus222.xlsx', index=False)
+            df.to_excel('AutoHaus.xlsx', index=False)
             return Response({
                 'status': True,
                 'message': 'Export successfully'

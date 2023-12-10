@@ -1,4 +1,38 @@
 # NewCARS
+
+ДЗ на 11.12.23
+1. Сделать добавление нового авто через API;
+
+class AutohausCreateView(generics.CreateAPIView):
+    queryset = AutohausREST.objects.all()
+    serializer_class = MyModelSerializer
+
+2. Сделать экспорт БД в exel.
+- pip install pandas 
+- pip install openpyxl
+- - во views.py :
+```
+import pandas as pd
+
+class ExportAPIViews(APIView):
+    def post(self, request):
+        try:
+            queryset = AutohausREST.objects.all()
+            df = pd.DataFrame.from_records(queryset.values(), exclude=['brand_auto'])
+            df.to_excel('AutoHaus222.xlsx', index=False)
+            return Response({
+                'status': True,
+                'message': 'Export successfully'
+            },status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response({
+                'status': False,
+                'message': 'Export not complete'
+            },status=status.HTTP_400_BAD_REQUEST)
+```
+
+
 ДЗ на 06.12.23
 1. Создал forms.py
 2. Добавил во вьюхи новый класс для добавления новых записей

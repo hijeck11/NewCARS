@@ -2,14 +2,18 @@
 
 ДЗ на 11.12.23
 1. Сделать добавление нового авто через API;
+```
 
+class ExportAPIViews(APIView):
 class AutohausCreateView(generics.CreateAPIView):
     queryset = AutohausREST.objects.all()
     serializer_class = MyModelSerializer
+```
 
 2. Сделать экспорт БД в exel.
 - pip install pandas 
 - pip install openpyxl
+
 - - во views.py :
 ```
 import pandas as pd

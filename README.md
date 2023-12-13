@@ -1,5 +1,45 @@
 # NewCARS
 
+ДЗ на 13.12.23
+Сделать новое приложение для регистрации через Djoser Web Token
+
+1. pip install djoser
+2. в файл проекта settings.py:
+```
+INSTALLED_APPS = [
+    'rest_framework.authtoken',
+    'djoser',
+]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+}
+```
+3. в файл проекта urls.py:
+```
+urlpatterns = [
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.authtoken')),
+]
+```
+4. выполнить миграции
+```
+python manage.py migrate
+```
+5. Далее через стороннее приложение Postman:
+Создание новых пользовтелей:
+![img_7.png](img_7.png)
+Получение токена пользователя:
+![img_8.png](img_8.png)
+
+
+
+
+
 ДЗ на 11.12.23
 1. Сделать добавление нового авто через API;
 ```

@@ -30,10 +30,22 @@ urlpatterns = [
 ```
 python manage.py migrate
 ```
-5. Далее через стороннее приложение Postman:
+
+5.
+```
+class AutohausListViews(generics.ListAPIView):
+    queryset = AutohausREST.objects.all()
+    serializer_class = MyModelSerializer
+    permission_classes = (IsAuthenticated, ) -> строка для того, чтобы данные видел только авторизованный по токену пользователь
+```
+
+6. Далее через стороннее приложение Postman:
 Создание новых пользовтелей:
+http://127.0.0.1:8000/auth/users/
+
 ![img_7.png](img_7.png)
 Получение токена пользователя:
+http://127.0.0.1:8000/auth/token/login
 ![img_8.png](img_8.png)
 
 

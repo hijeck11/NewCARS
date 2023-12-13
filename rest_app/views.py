@@ -3,6 +3,7 @@ import os
 from django.shortcuts import render, redirect
 from rest_framework import generics, status, filters
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django import forms
@@ -61,6 +62,7 @@ class MyModelListCreateView(APIView):
 class AutohausListViews(generics.ListAPIView):
     queryset = AutohausREST.objects.all()
     serializer_class = MyModelSerializer
+    permission_classes = (IsAuthenticated, )
     # filter_backends = [filters.SearchFilter]
     # filter_backends = [filters.SearchFilter]
     filter_backends = [filters.OrderingFilter]

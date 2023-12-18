@@ -133,3 +133,75 @@ class ExportAPIViews(APIView):
 #                 'status': False,
 #                 'message': f'Export failed: {str(e)}',
 #             }, status=status.HTTP_400_BAD_REQUEST)
+
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.image import MIMEImage
+from email.header import Header
+import base64
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+
+@api_view(['POST'])
+def send_message(request):
+    if request.method == 'POST':
+        # Получаем сообщение из POST-запроса
+        message = request.data.get('message', '')
+
+        # Подготавливаем и отправляем электронное письмо
+        login = 'ваш_email@gmail.com'
+        password = 'ваш_пароль'
+
+        try:
+            # Connect to the SMTP server
+            server = smtplib.SMTP('smtp.gmail.com', 587)
+            server.starttls()
+            server.login(login, password)
+
+            subject = 'Тема вашего HTML-письма'
+
+            # Указываем путь до файла с HTML-контентом и изображением
+            html_file_path = r'E:\TMS\NewCARS\NewCARS\email_template.html'
+            image_path = r'E:\TMS\NewCARS\NewCARS\1.jpg'
+
+            # Читаем содержимое HTML-файла
+            with open(html_file_path, 'r', encoding='utf-8') as html_file:
+                html_content = html_file.read()
+
+            # Создаем MIMEMultipart object
+            msg = MIMEMultipart()
+            msg['Subject'] = Header(subject, 'utf-8')
+
+            # Читаем содержимое изображения и кодируем в base64
+            with open(image_path, 'rb') as image_file:
+                image_data = image_file.read()
+                image_base64 = base64.b64encode(image_data).decode('utf-8')
+
+            # Attach HTML content with image to the email
+            msg.attach(MIMEText(html_content, 'html'))
+
+            # Attach image to the email as inline
+            image_attachment = MIMEImage(image_data, name='image.jpg')
+            image_attachment.add_header('Content-ID', '<image>')
+            msg.attach(image_attachment)
+
+            # Send the email
+            server.sendmail(login, 'kubik19891502@gmail.com', msg.as_string())
+            print("Email sent successfully!")
+
+            # Возвращаем успешный ответ
+            return Response({'status': 'success'}, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            # Возвращаем ошибку в случае неудачи
+            return Response({'status': 'error', 'message': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        finally:
+            # Ensure the connection is closed
+            server.quit()
+
+    # Если запрос не POST, возвращаем ошибку
+    return Response({'status': 'error', 'message': 'Invalid request method'}, status=status.HTTP_400_BAD_REQUEST)

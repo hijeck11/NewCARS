@@ -12,6 +12,7 @@ urlpatterns = [
     path('', AutohausListViews.as_view(), name='search'),
     path('cars/export/', ExportAPIViews.as_view(), name='export-api'),
     re_path('^cars/(?P<price>.+)/$', PurchaseList.as_view()),
+    path('message/', send_message, name='send_message'),
 ]
 
 if settings.DEBUG:

@@ -9,6 +9,7 @@ urlpatterns = [
     path('api/', include('rest_app.urls')),
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.authtoken')),
+    path('', include('sendemail.urls')),
 ]
 
 if settings.DEBUG:

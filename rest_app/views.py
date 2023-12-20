@@ -12,7 +12,6 @@ from .forms import AutohausRESTForm
 from .models import AutohausREST
 from .serializers import MyModelSerializer
 
-from rest_framework.generics import ListAPIView
 
 
 class AutohausRESTForm(forms.ModelForm):

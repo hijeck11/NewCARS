@@ -1,5 +1,11 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Autohaus, AutoOptions
+from test_app.tasks import add
+
+def celerytest(request):
+    result = add.delay(3, 3)
+    print(result)
+
 
 def autohaus_list(request):
     autos = Autohaus.objects.all()

@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update BNB/USDT</title>
+</head>
+<body>
+    <form method="post" action="{% url 'update_bnb_usdt' %}">
+        {% csrf_token %}
+        <input type="submit" value="Update BNB/USDT">
+    </form>
+</body>
+</html>

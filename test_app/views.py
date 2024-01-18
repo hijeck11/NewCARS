@@ -1,6 +1,34 @@
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse
 from .models import Autohaus, AutoOptions
-from test_app.tasks import add
+from django.http import HttpResponse
+from django.views import View
+from django.http import HttpResponseRedirect
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+from test_app.tasks import add, update_bnb_usdt
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class UpdateBnbUsdtView(View):
+
+    def post(self, request, *args, **kwargs):
+        # Запланировать задачу для выполнения каждые 5 секунд
+        update_bnb_usdt.apply_async(countdown=5)
+
+        # Перенаправить пользователя обратно на ту же страницу
+        return HttpResponseRedirect(reverse('update_bnb_usdt_form'))
+
+    def get(self, request, *args, **kwargs):
+        # Обработка GET-запроса, если необходимо
+        return HttpResponse(status=405)
+
+
+class UpdateBnbUsdtFormView(View):
+
+    def get(self, request, *args, **kwargs):
+        return render(request, 'update_bnb_usdt_form.html')
+
 
 def celerytest(request):
     result = add.delay(3, 3)

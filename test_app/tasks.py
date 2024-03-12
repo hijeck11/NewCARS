@@ -20,18 +20,22 @@ def print_time_task():
 
 @app.task
 def update_bnb_usdt():
-    url = 'https://www.binance.com/en/trade/BNB_USDT?type=spot'
+    # URL для получения текущей цены BNB/USDT
+    url = 'https://api.binance.com/api/v3/ticker/price?symbol=BNBUSDT'
+
+    # Отправляем GET-запрос к Binance API
     response = requests.get(url)
-    soup = BeautifulSoup(response.text, 'html.parser')
 
-    # Получаем title страницы
-    title_element = soup.find('title')
-
-    if title_element:
-        current_price = title_element.text.strip()
-        print(f'BNB/USDT текущая цена: {current_price}')
+    # Если запрос успешен, выводим текущую цену
+    if response.status_code == 200:
+        data = response.json()
+        current_price = data['price']
+        print(f'Текущая цена BNB/USDT: {current_price}')
     else:
-        print('Не удалось найти элемент title страницы.')
+        print('Ошибка при получении данных о цене')
 
-print_time_task.delay()
+# Вызываем функцию для получения текущей цены BNB/USDT
+
+
+update_bnb_usdt()
 

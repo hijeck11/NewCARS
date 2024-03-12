@@ -14,4 +14,12 @@ app.conf.beat_schedule = {
     },
 }
 
+app.conf.beat_schedule = {
+    'update_bnb_usdt_task': {
+        'task': 'test_app.tasks.update_bnb_usdt',
+        'schedule': 5.0
+    },
+}
+
+
 app.autodiscover_tasks()

@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'sendemail',
     'debug_toolbar',
     'drf_yasg',
+    'chat',
+    'channels',
     # 'sendemail.apps.SendemailConfig',
 ]
 
@@ -182,3 +184,4 @@ if DEBUG:
 
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+
